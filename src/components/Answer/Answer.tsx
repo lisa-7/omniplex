@@ -1,11 +1,17 @@
+// src/components/Answer/Answer.tsx
+"use client";
+
 import React from "react";
 import styles from "./Answer.module.css";
 import Image from "next/image";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import rehypeKatex from "rehype-katex";
+// @ts-ignore
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { vscDarkPlus as dark } from "react-syntax-highlighter/dist/esm/styles/prism";
+// @ts-ignore
+import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
+
 import { Skeleton } from "@nextui-org/skeleton";
 import { Citation } from "@/utils/types";
 
@@ -22,24 +28,17 @@ const Answer = (props: Props) => {
   const transform = (text: string) => {
     let transformedText = text.replace(/\\\[/g, "$$").replace(/\\\]/g, "$$");
 
-    transformedText = transformedText
-      .replace(/\\\(/g, "$")
-      .replace(/\\\)/g, "$");
+    transformedText = transformedText.replace(/\\\(/g, "$").replace(/\\\)/g, "$");
 
     transformedText = transformedText
       .split(/\[\{(\d+)\}\]/)
       .map((part, index) => {
-        if (index % 2 === 0) {
-          return part;
-        } else {
-          const citationNumber = parseInt(part);
-          const citation = props.citations.find(
-            (c) => c.number === citationNumber
-          );
-          return citation
-            ? `<a href="${citation.url}" target="_blank" className="${styles.citations}" >${citationNumber}</a>`
-            : part;
-        }
+        if (index % 2 === 0) return part;
+        const citationNumber = parseInt(part);
+        const citation = props.citations.find((c) => c.number === citationNumber);
+        return citation
+          ? `<a href="${citation.url}" target="_blank" className="${styles.citations}">${citationNumber}</a>`
+          : part;
       })
       .join("");
 
@@ -52,6 +51,7 @@ const Answer = (props: Props) => {
         <Image src={Logo} alt="Omniplex" className={styles.answerImg} />
         <p className={styles.answerText}>Answer</p>
       </div>
+
       {props.isLoading ? (
         <div>
           <Skeleton className={styles.skeletonAnswer} />
@@ -64,19 +64,13 @@ const Answer = (props: Props) => {
             className={styles.answer}
             rehypePlugins={[rehypeKatex, rehypeRaw]}
             components={{
-              code(props) {
-                const { children, className, node, ...rest } = props;
+              code({ node, className, children, ...rest }) {
                 const match = /language-(\w+)/.exec(className || "");
                 return match ? (
                   <SyntaxHighlighter
-                    PreTag="div"
-                    language={match[1]}
                     style={dark}
-                    wrapLines={true}
-                    wrapLongLines={true}
-                    customStyle={{
-                      margin: 0,
-                    }}
+                    language={match[1]}
+                    PreTag="div"
                   >
                     {String(children).replace(/\n$/, "")}
                   </SyntaxHighlighter>
