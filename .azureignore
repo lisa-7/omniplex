@@ -1,6 +1,8 @@
 # Ignore node_modules and unnecessary local files
 node_modules
 .next/cache
+.next/trace
+.next/server/webpack
 *.log
 .env
 .DS_Store
@@ -15,3 +17,4 @@ docs
 scripts
 __mocks__
 __tests__
+.next/static/chunks/pages
