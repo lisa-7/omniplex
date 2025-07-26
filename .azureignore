@@ -18,3 +18,6 @@ scripts
 __mocks__
 __tests__
 .next/static/chunks/pages
+.next/build-manifest.json
+.next/react-loadable-manifest.json
+.next/server/middleware-manifest.json
