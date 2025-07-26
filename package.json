@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build ",
     "start": "next start",
+    "script": "rimraf .next/cache .next/trace .next/server/webpack .next/static/chunks/pages .next/server/app/api",
     "lint": "next lint"
   },
   "dependencies": {
