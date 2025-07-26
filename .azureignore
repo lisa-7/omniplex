@@ -1,0 +1,17 @@
+# Ignore node_modules and unnecessary local files
+node_modules
+.next/cache
+*.log
+.env
+.DS_Store
+*.md
+test
+tests
+coverage
+.vscode
+cypress
+public/mock-data
+docs
+scripts
+__mocks__
+__tests__
