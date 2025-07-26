@@ -5,7 +5,7 @@ import { cutString, getReadingTimeInMinutes } from "@/utils/utils";
 
 export async function GET(request: Request) {
   const { initializeApp } = await import("firebase/app");
-  const { getFirestore, doc, getDoc } = await import("firebase/firestore");
+  const { getFirestore, doc, getDoc } = await import("firebase/firestore/lite");
 
   const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
